@@ -7,23 +7,23 @@ use crate::borrows::refcell::{Borrow, DebugRefCell};
 
 /// A [`Ref`] given by a [`DebugRefCell`]
 pub struct DebugRef<'a, T: Sized> {
-    inner: Ref<'a, T>,
-    borrow: Borrow,
-    ref_cell: *mut DebugRefCell<T>,
+    pub(crate) inner: Ref<'a, T>,
+    pub(crate) borrow: Borrow,
+    pub(crate) ref_cell: *const DebugRefCell<T>,
 }
 
 /// A [`RefMut`] given by a [`DebugRefCell`]
 pub struct DebugRefMut<'a, T: Sized> {
-    inner: RefMut<'a, T>,
-    borrow: Borrow,
-    ref_cell: *mut DebugRefCell<T>,
+    pub(crate) inner: RefMut<'a, T>,
+    pub(crate) borrow: Borrow,
+    pub(crate) ref_cell: *const DebugRefCell<T>,
 }
 
 impl<T> Drop for DebugRef<'_, T> {
     fn drop(&mut self) {
         unsafe {
             self.ref_cell
-                .as_mut()
+                .as_ref()
                 .unwrap()
                 .drop_ref(self.borrow.clone());
         }
@@ -34,7 +34,7 @@ impl<T> Drop for DebugRefMut<'_, T> {
     fn drop(&mut self) {
         unsafe {
             self.ref_cell
-                .as_mut()
+                .as_ref()
                 .unwrap()
                 .drop_ref(self.borrow.clone());
         }
