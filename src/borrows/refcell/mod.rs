@@ -10,6 +10,28 @@ pub mod borrow;
 pub mod fmt;
 pub mod refs;
 
+/// A [`RefCell`] that may be used for debugging purposes.
+///
+/// Just like a normal [`RefCell`], this implementation enforces the following rules:
+/// - No active immutable borrows when a mutable borrow is created
+/// - No multiple mutable borrows
+///
+/// However, unlike the normal implementation, this implementation gives more information over the borrowing such as for example which borrow is at fault
+/// and what borrows ultimately caused this borrowing error.
+///
+/// # Example
+/// ```
+/// use debugtools::borrows::refcell::DebugRefCell;
+///
+///	let refcell: DebugRefCell<usize> = DebugRefCell::new(0);
+///
+/// *refcell.borrow_mut() = 5;
+///
+/// let val: usize = *refcell.borrow();
+///
+///
+/// ```
+///
 pub struct DebugRefCell<T: Sized> {
     inner: RefCell<T>,
 

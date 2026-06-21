@@ -1,5 +1,6 @@
 [package]
 name = "debugtools"
+description = "Debugging tools and implementations for Rust to make debugging easier!"
 version = "0.1.0"
 edition = "2024"
 
