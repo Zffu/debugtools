@@ -64,7 +64,7 @@ impl<T> DebugRefCell<T> {
         mutable: bool,
     ) -> Result<(), InvalidBorrowError> {
         unsafe {
-            if !self.mutable_borrows.get().as_ref().unwrap().is_empty() {
+            if self.mutable_borrows.get().as_ref().unwrap().len() > 1 {
                 return Err(InvalidBorrowError::new(
                     borrow,
                     self.mutable_borrows.get().as_ref().unwrap().clone(),

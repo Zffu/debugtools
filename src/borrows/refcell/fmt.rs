@@ -16,12 +16,12 @@ impl InvalidBorrowError {
 impl Display for InvalidBorrowError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         writeln!(f, "Invalid borrow error caused by:")?;
-        write!(f, "{}", self.caused_by)?;
+        writeln!(f, "{}", self.caused_by)?;
 
-        write!(f, "Inherently caused by:")?;
+        writeln!(f, "Inherently caused by:")?;
 
         for origin in &self.origins {
-            write!(f, "{}", origin)?;
+            writeln!(f, "{}", origin)?;
         }
 
         Ok(())
@@ -30,7 +30,7 @@ impl Display for InvalidBorrowError {
 
 impl Display for Borrow {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
+        writeln!(
             f,
             "{} borrow at:",
             if self.is_mutable {
@@ -40,6 +40,6 @@ impl Display for Borrow {
             }
         )?;
 
-        write!(f, "{}", self.position)
+        writeln!(f, "{}", self.position)
     }
 }
